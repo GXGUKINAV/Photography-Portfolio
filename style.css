@@ -1,14 +1,41 @@
+/* =========================================================
+   TEMA
+   - Dispositivo in tema chiaro  → sfondo bianco, accenti crema, testo grigio
+   - Dispositivo in tema scuro   → tema nero/rosso originale
+   - Il toggle sole/luna imposta [data-theme] su <html> e vince sul sistema.
+   Ogni colore è definito una volta sola con light-dark(chiaro, scuro).
+   ========================================================= */
 :root{
-  --bg: #0a0a0c;
-  --bg-alt: #131316;
-  --ink: #eeece6;
-  --ink-dim: #8b8b91;
-  --line: #232327;
-  --red: #e10600;
-  --cyan: #00d4ff;
+  color-scheme: light dark;
+
+  --bg:        light-dark(#ffffff, #0a0a0c);
+  --bg-alt:    light-dark(#f8f4ea, #131316);
+  --ink:       light-dark(#4a4a4f, #eeece6);
+  --ink-dim:   light-dark(#86867f, #8b8b91);
+  --line:      light-dark(#e9e2d2, #232327);
+  --line-hi:   light-dark(#d8cdb6, #3a3a40);
+
+  --accent:    light-dark(#b39a6a, #e10600);   /* testi/linee accent */
+  --accent-2:  light-dark(#8f7a52, #00d4ff);   /* dati EXIF evidenziati */
+  --cream:     #efe5cf;
+
+  --btn-bg:    light-dark(#efe5cf, #eeece6);
+  --btn-fg:    light-dark(#4a4a4f, #0a0a0c);
+
+  --header-bg: light-dark(rgba(255,255,255,0.72), rgba(10,10,12,0.55));
+
+  --glow-a:    light-dark(rgba(239,229,207,0.95), rgba(225,6,0,0.16));
+  --glow-b:    light-dark(rgba(239,229,207,0.55), rgba(0,212,255,0.07));
+  --glow-c:    light-dark(rgba(239,229,207,0.70), rgba(225,6,0,0.08));
+  --page-1:    light-dark(#ffffff, #0a0a0c);
+  --page-2:    light-dark(#fdfbf6, #0d0d10);
+  --page-3:    light-dark(#ffffff, #08080a);
+
   --radius: 18px;
   --radius-sm: 10px;
 }
+:root[data-theme="light"]{ color-scheme: light; }
+:root[data-theme="dark"]{ color-scheme: dark; }
 
 *{ margin:0; padding:0; box-sizing:border-box; }
 
@@ -16,10 +43,10 @@ html{ scroll-behavior:smooth; }
 
 body{
   background:
-    radial-gradient(ellipse 60% 50% at 15% -10%, rgba(225,6,0,0.16), transparent 55%),
-    radial-gradient(ellipse 55% 45% at 85% 8%, rgba(0,212,255,0.07), transparent 55%),
-    radial-gradient(ellipse 70% 60% at 50% 110%, rgba(225,6,0,0.08), transparent 60%),
-    linear-gradient(180deg, #0a0a0c 0%, #0d0d10 35%, #08080a 70%, #0a0a0c 100%);
+    radial-gradient(ellipse 60% 50% at 15% -10%, var(--glow-a), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 85% 8%, var(--glow-b), transparent 55%),
+    radial-gradient(ellipse 70% 60% at 50% 110%, var(--glow-c), transparent 60%),
+    linear-gradient(180deg, var(--page-1) 0%, var(--page-2) 35%, var(--page-3) 70%, var(--page-1) 100%);
   background-attachment:fixed;
   background-size:200% 200%, 200% 200%, 200% 200%, 100% 100%;
   animation:drift 24s ease-in-out infinite alternate;
@@ -33,12 +60,14 @@ body{
   100%{ background-position:15% 10%, 80% 15%, 45% 90%, 0 0; }
 }
 
-::selection{ background:var(--red); color:#fff; }
+::selection{ background:var(--accent); color:#fff; }
+
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
 
 /* ---------- utility ---------- */
 .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.02em; }
 .container{ max-width:1600px; margin:0 auto; padding:0 clamp(24px, 4vw, 64px); }
-.accent{ color:var(--red); }
+.accent{ color:var(--accent); }
 
 .reveal{
   opacity:0;
@@ -64,7 +93,7 @@ header{
   display:flex; align-items:center; justify-content:space-between;
   padding:22px 32px;
   backdrop-filter: blur(10px);
-  background:rgba(10,10,12,0.55);
+  background:var(--header-bg);
   border-bottom:1px solid var(--line);
 }
 .logo{
@@ -72,8 +101,13 @@ header{
   font-size:20px;
   letter-spacing:0.04em;
   text-transform:uppercase;
+  white-space:nowrap;
+  text-decoration:none;
+  color:var(--ink);
 }
-.logo span{ color:var(--red); }
+.logo .dot{ color:var(--accent); }
+
+.header-right{ display:flex; align-items:center; gap:34px; }
 
 nav ul{
   display:flex; gap:34px; list-style:none;
@@ -92,10 +126,38 @@ nav a:hover{ color:var(--ink); }
 nav a::after{
   content:'';
   position:absolute; left:0; bottom:-6px;
-  width:0; height:1px; background:var(--red);
+  width:0; height:1px; background:var(--accent);
   transition:width 0.25s ease;
 }
 nav a:hover::after{ width:100%; }
+
+/* ---------- theme toggle (sole / luna) ---------- */
+.theme-toggle{
+  display:inline-flex; align-items:center; gap:2px;
+  padding:4px;
+  border:1px solid var(--line);
+  border-radius:100px;
+  background:var(--bg-alt);
+}
+.theme-toggle button{
+  width:34px; height:28px;
+  display:grid; place-items:center;
+  border:0; border-radius:100px;
+  background:transparent;
+  color:var(--ink-dim);
+  cursor:pointer;
+  transition:background 0.25s ease, color 0.25s ease;
+}
+.theme-toggle button:hover{ color:var(--ink); }
+.theme-toggle button[aria-pressed="true"]{
+  background:color-mix(in srgb, var(--accent) 20%, transparent);
+  color:var(--accent);
+}
+.theme-toggle svg{
+  width:16px; height:16px;
+  fill:none; stroke:currentColor; stroke-width:2;
+  stroke-linecap:round; stroke-linejoin:round;
+}
 
 /* ---------- hero ---------- */
 .hero{
@@ -107,7 +169,7 @@ nav a:hover::after{ width:100%; }
 .hero-eyebrow{
   font-family:'JetBrains Mono', monospace;
   font-size:12px;
-  color:var(--red);
+  color:var(--accent);
   letter-spacing:0.18em;
   text-transform:uppercase;
   margin-bottom:22px;
@@ -116,8 +178,8 @@ nav a:hover::after{ width:100%; }
 .hero-eyebrow::before{
   content:'';
   width:8px; height:8px; border-radius:50%;
-  background:var(--red);
-  box-shadow:0 0 12px var(--red);
+  background:var(--accent);
+  box-shadow:0 0 12px var(--accent);
   animation:pulse 1.6s infinite ease-in-out;
 }
 @keyframes pulse{
@@ -158,7 +220,7 @@ nav a:hover::after{ width:100%; }
 }
 .scroll-cue .bar::after{
   content:''; position:absolute; top:-34px; left:0;
-  width:100%; height:34px; background:var(--red);
+  width:100%; height:34px; background:var(--accent);
   animation:scrollmove 1.8s infinite ease-in-out;
 }
 @keyframes scrollmove{
@@ -172,7 +234,7 @@ nav a:hover::after{ width:100%; }
 }
 .sec-head .tag{
   font-family:'JetBrains Mono', monospace;
-  font-size:12px; color:var(--red);
+  font-size:12px; color:var(--accent);
   text-transform:uppercase; letter-spacing:0.14em;
   white-space:nowrap;
 }
@@ -199,8 +261,7 @@ section{ position:relative; z-index:1; padding:110px 0; }
   font-size:19px;
   line-height:1.75;
   color:var(--ink-dim);
-  font-style:italic;
-  opacity:0.6;
+  max-width:60ch;
 }
 
 /* ---------- equipment carousel ---------- */
@@ -241,13 +302,13 @@ section{ position:relative; z-index:1; padding:110px 0; }
   font-size:14px;
   transition:all 0.2s ease;
 }
-.specs-nav button:hover{ border-color:var(--red); color:var(--red); }
+.specs-nav button:hover{ border-color:var(--accent); color:var(--accent); }
 .specs-nav button:disabled{ opacity:0.3; cursor:default; }
 .specs-nav button:disabled:hover{ border-color:var(--line); color:var(--ink); }
 
 .specs ul{ list-style:none; display:flex; flex-direction:column; gap:14px; }
 .specs li{
-  display:flex; justify-content:space-between;
+  display:flex; justify-content:space-between; gap:16px;
   font-size:14px;
 }
 .specs li span:first-child{ color:var(--ink-dim); }
@@ -274,9 +335,9 @@ section{ position:relative; z-index:1; padding:110px 0; }
   cursor:pointer;
   transition:all 0.25s ease;
 }
-.filter-btn:hover{ color:var(--ink); border-color:#3a3a40; }
+.filter-btn:hover{ color:var(--ink); border-color:var(--line-hi); }
 .filter-btn.active{
-  color:#0a0a0c; background:var(--ink); border-color:var(--ink);
+  color:var(--btn-fg); background:var(--btn-bg); border-color:var(--btn-bg);
 }
 
 /* ---------- gallery ---------- */
@@ -285,6 +346,12 @@ section{ position:relative; z-index:1; padding:110px 0; }
   flex-wrap:wrap;
   align-items:flex-start;
   gap:24px;
+}
+.gallery-empty{
+  font-family:'JetBrains Mono', monospace;
+  font-size:13px;
+  color:var(--ink-dim);
+  letter-spacing:0.04em;
 }
 .shot{
   flex:0 0 auto;
@@ -295,10 +362,11 @@ section{ position:relative; z-index:1; padding:110px 0; }
   overflow:hidden;
   border:1px solid var(--line);
   background:var(--bg-alt);
-  transition:transform 0.35s ease, border-color 0.35s ease;
+  transition:transform 0.35s ease, border-color 0.35s ease, opacity 0.8s ease;
 }
-.shot:hover{ transform:translateY(-6px); border-color:#3a3a40; }
+.shot:hover{ transform:translateY(-6px); border-color:var(--line-hi); }
 
+/* l'aspect-ratio reale della foto viene impostato inline da script.js */
 .shot-frame{
   height:340px;
   width:auto;
@@ -306,23 +374,6 @@ section{ position:relative; z-index:1; padding:110px 0; }
   position:relative;
   overflow:hidden;
 }
-/* modificatori per adattare il riquadro all'orientamento reale della foto */
-.shot-frame--3x2{ aspect-ratio:3/2; } /* orizzontale */
-.shot-frame--2x3{ aspect-ratio:2/3; } /* verticale */
-.shot-frame--3x4{ aspect-ratio:3/4; } /* verticale (es. smartphone) */
-/* placeholder art - swap with <img> when real photos are ready */
-.shot-frame .ph{
-  position:absolute; inset:0;
-  display:flex; align-items:center; justify-content:center;
-  font-family:'JetBrains Mono', monospace;
-  font-size:11px;
-  color:var(--ink-dim);
-  text-transform:uppercase;
-  letter-spacing:0.1em;
-  transition:transform 0.6s ease;
-}
-.shot:hover .ph{ transform:scale(1.06); }
-
 .shot-frame .shot-img{
   position:absolute; inset:0;
   width:100%; height:100%;
@@ -331,28 +382,24 @@ section{ position:relative; z-index:1; padding:110px 0; }
 }
 .shot:hover .shot-img{ transform:scale(1.06); }
 
-.ph-1{ background:linear-gradient(155deg,#2b0b0a,#0a0a0c 65%); }
-.ph-2{ background:linear-gradient(155deg,#0a1a22,#0a0a0c 65%); }
-.ph-3{ background:linear-gradient(155deg,#1c1408,#0a0a0c 65%); }
-.ph-4{ background:linear-gradient(155deg,#160a22,#0a0a0c 65%); }
-.ph-5{ background:linear-gradient(155deg,#081f14,#0a0a0c 65%); }
-.ph-6{ background:linear-gradient(155deg,#22110a,#0a0a0c 65%); }
-
+/* badge sopra la foto: sempre scuro, così resta leggibile su qualsiasi immagine */
 .shot-cat{
   position:absolute; top:14px; left:14px;
   font-family:'JetBrains Mono', monospace;
   font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
   background:rgba(10,10,12,0.7);
-  border:1px solid var(--line);
+  border:1px solid rgba(255,255,255,0.12);
   padding:5px 10px;
   border-radius:100px;
-  color:var(--ink-dim);
+  color:#d4d4d8;
 }
 
 .shot-exif{
   padding:16px 18px;
-  display:flex; justify-content:space-between; align-items:center;
+  display:flex; justify-content:space-between; align-items:center; gap:18px;
   border-top:1px solid var(--line);
+  /* la didascalia non allarga la card: la larghezza la decide solo la foto, il titolo va a capo */
+  width:0; min-width:100%;
 }
 .shot-exif .title{
   font-size:14px; font-weight:600;
@@ -361,8 +408,9 @@ section{ position:relative; z-index:1; padding:110px 0; }
   font-family:'JetBrains Mono', monospace;
   font-size:11px; color:var(--ink-dim);
   text-align:right; line-height:1.5;
+  white-space:nowrap;
 }
-.shot-exif .data .hi{ color:var(--cyan); }
+.shot-exif .data .hi{ color:var(--accent-2); }
 
 /* ---------- cta / contatti ---------- */
 .cta-strip{
@@ -384,16 +432,16 @@ section{ position:relative; z-index:1; padding:110px 0; }
   font-size:13px;
   text-transform:uppercase;
   letter-spacing:0.08em;
-  color:#0a0a0c;
-  background:var(--ink);
+  color:var(--btn-fg);
+  background:var(--btn-bg);
   padding:16px 30px;
   border-radius:100px;
   text-decoration:none;
   white-space:nowrap;
   display:inline-flex; align-items:center; gap:10px;
-  transition:background 0.25s ease, transform 0.25s ease;
+  transition:background 0.25s ease, color 0.25s ease, transform 0.25s ease;
 }
-.btn:hover{ background:var(--red); color:#fff; transform:translateY(-2px); }
+.btn:hover{ background:var(--accent); color:#fff; transform:translateY(-2px); }
 
 /* ---------- footer / contatti ---------- */
 footer{
@@ -413,12 +461,15 @@ footer .fmono{
   font-size:12px; text-transform:uppercase; letter-spacing:0.06em;
   transition:color 0.25s ease;
 }
-.socials a:hover{ color:var(--red); }
+.socials a:hover{ color:var(--accent); }
 
 /* ---------- lightbox / anteprima foto ---------- */
 .shot-frame.is-clickable{ cursor:zoom-in; }
 
+/* la lightbox resta sempre scura (si guardano le foto), anche col tema chiaro:
+   color-scheme:dark fa risolvere tutti i light-dark() qui dentro sul valore scuro */
 .lightbox{
+  color-scheme:dark;
   position:fixed;
   inset:0;
   z-index:1000;
@@ -450,7 +501,7 @@ footer .fmono{
   display:flex; align-items:center; justify-content:center;
   transition:border-color 0.2s ease, color 0.2s ease;
 }
-.lightbox-close:hover{ border-color:var(--red); color:var(--red); }
+.lightbox-close:hover{ border-color:var(--accent); color:var(--accent); }
 
 /* area cliccabile: il "vuoto" attorno alla foto chiude l'anteprima */
 .lightbox-stage{
@@ -524,7 +575,7 @@ footer .fmono{
   transition:background 0.15s ease;
 }
 .lightbox-ctxmenu li:hover{ background:rgba(255,255,255,0.07); }
-.lightbox-ctxmenu li.danger{ color:var(--red); }
+.lightbox-ctxmenu li.danger{ color:var(--accent); }
 .lightbox-ctxmenu li.danger:hover{ background:rgba(225,6,0,0.12); }
 
 .lightbox-zoom{
@@ -550,7 +601,7 @@ footer .fmono{
   display:flex; align-items:center; justify-content:center;
   transition:all 0.2s ease;
 }
-.lightbox-zoom button:hover{ border-color:var(--red); color:var(--red); }
+.lightbox-zoom button:hover{ border-color:var(--accent); color:var(--accent); }
 .lightbox-zoom button:disabled{ opacity:0.3; cursor:default; }
 .lightbox-zoom button:disabled:hover{ border-color:var(--line); color:var(--ink); }
 .lightbox-zoom .zoom-level{
@@ -561,81 +612,19 @@ footer .fmono{
   font-size:10px; text-transform:uppercase; letter-spacing:0.06em;
 }
 
-/* ---------- pannello info (stile Drive) ---------- */
-.lightbox-zoom .zoom-info{
-  font-family:Georgia, serif; font-style:italic; font-size:15px;
-}
-.lightbox-info{
-  position:absolute;
-  top:50%; right:clamp(16px, 3vw, 40px);
-  width:300px; max-height:70%;
-  z-index:1002;
-  background:rgba(19,19,22,0.97);
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  box-shadow:0 24px 60px rgba(0,0,0,0.55);
-  backdrop-filter:blur(8px);
-  padding:20px 22px;
-  overflow-y:auto;
-  opacity:0;
-  visibility:hidden;
-  transform:translateY(-50%) scale(0.96);
-  transition:opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
-}
-.lightbox.info-open .lightbox-info{
-  opacity:1; visibility:visible;
-  transform:translateY(-50%) scale(1);
-}
-
-.info-head{
-  display:flex; align-items:center; justify-content:space-between;
-  padding-bottom:16px; margin-bottom:8px;
-  border-bottom:1px solid var(--line);
-}
-.info-head h3{
-  font-family:'JetBrains Mono', monospace;
-  font-size:13px; font-weight:600;
-  color:var(--ink);
-  text-transform:uppercase; letter-spacing:0.12em;
-}
-.info-head button{
-  width:30px; height:30px; border-radius:50%;
-  border:1px solid var(--line); background:transparent;
-  color:var(--ink); cursor:pointer; font-size:13px;
-  transition:all 0.2s ease;
-}
-.info-head button:hover{ border-color:var(--red); color:var(--red); }
-
-.info-list{ list-style:none; }
-.info-list li{
-  display:flex; justify-content:space-between; gap:16px;
-  padding:14px 0;
-  border-bottom:1px solid var(--line);
-  font-family:'JetBrains Mono', monospace;
-  font-size:12px;
-}
-.info-list li span:first-child{ color:var(--ink-dim); }
-.info-list li span:last-child{ color:var(--ink); text-align:right; }
-
-@media(max-width:700px){
-  .lightbox-info{
-    top:auto; bottom:84px;
-    left:16px; right:16px; width:auto;
-    transform:translateY(12px) scale(0.98);
-  }
-  .lightbox.info-open .lightbox-info{ transform:translateY(0) scale(1); }
-}
-
 /* ---------- responsive ---------- */
 @media(min-width:1600px){
   .hero h1{ font-size:clamp(52px, 9vw, 190px); max-width:1400px; }
 }
 @media(max-width:900px){
   nav ul{ display:none; }
+  .header-right{ gap:0; }
   .about-grid{ grid-template-columns:1fr; }
   .shot-frame{ height:260px; }
 }
 @media(max-width:560px){
+  header{ padding:18px 20px; }
+  .logo .logo-ext{ display:none; }
   .gallery{ flex-direction:column; }
   .shot{ width:100%; }
   .shot-frame{ width:100%; height:auto; }
