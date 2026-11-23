@@ -99,6 +99,10 @@ const zoomInBtn = document.getElementById('zoomIn');
 const zoomOutBtn = document.getElementById('zoomOut');
 const zoomResetBtn = document.getElementById('zoomReset');
 const zoomLevelEl = document.getElementById('zoomLevel');
+const lightboxInfo = document.getElementById('lightboxInfo');
+const infoList = document.getElementById('infoList');
+const zoomInfoBtn = document.getElementById('zoomInfo');
+const infoCloseBtn = document.getElementById('infoClose');
 
 const zoomLevels = [0.5, 0.75, 1, 1.25, 1.5, 2, 2.5, 3];
 let zoomIdx = 2; // 1 = 100%, cioè la foto adattata allo schermo
@@ -141,12 +145,44 @@ function applyZoom(){
 function setZoom(idx, resetPan = true){
   zoomIdx = Math.min(zoomLevels.length - 1, Math.max(0, idx));
   if(resetPan){ panX = 0; panY = 0; }
+  setInfo(false); // zoomando, il pannello info si chiude
   applyZoom();
 }
 
-function openLightbox(src, alt){
+/* pannello info (stile Drive): mostra solo i dati che esistono davvero per quella foto */
+function renderInfo(photo){
+  const e = photo.exif || {};
+  const rows = [
+    ['Fotocamera', e.camera],
+    ['Risoluzione', photo.w && photo.h ? `${photo.w} × ${photo.h}` : null],
+    ['Tempo di scatto', e.shutter],
+    ['Diaframma', e.aperture],
+    ['ISO', e.iso && e.iso.replace(/^ISO\s*/i, '')],
+    ['Lunghezza focale', e.focal],
+    ['Flash', e.flash]
+  ];
+  infoList.replaceChildren();
+  rows.forEach(([label, value])=>{
+    if(!value) return;
+    const li = document.createElement('li');
+    li.appendChild(make('span', '', label));
+    li.appendChild(make('span', '', value));
+    infoList.appendChild(li);
+  });
+}
+
+function setInfo(open){
+  lightbox.classList.toggle('info-open', open);
+  lightboxInfo.setAttribute('aria-hidden', open ? 'false' : 'true');
+}
+
+zoomInfoBtn.addEventListener('click', ()=> setInfo(!lightbox.classList.contains('info-open')));
+infoCloseBtn.addEventListener('click', ()=> setInfo(false));
+
+function openLightbox(src, alt, photo){
   lightboxImg.src = src;
   lightboxImg.alt = alt || '';
+  renderInfo(photo || {});
   hideCtxMenu();
   lightbox.classList.add('active');
   lightbox.setAttribute('aria-hidden', 'false');
@@ -167,6 +203,7 @@ function closeLightbox(){
   document.body.style.overflow = '';
   hideCtxMenu();
   setTimeout(()=>{ if(!lightbox.classList.contains('active')) lightboxImg.src = ''; }, 200);
+  setInfo(false);
 }
 
 // click sul bordo "vuoto" (fuori dalla foto) chiude l'anteprima, come Google Drive
@@ -179,6 +216,7 @@ lightboxClose.addEventListener('click', closeLightbox);
 document.addEventListener('keydown', (e)=>{
   if(!lightbox.classList.contains('active')) return;
   if(e.key === 'Escape') closeLightbox();
+  if(e.key === 'i' || e.key === 'I') setInfo(!lightbox.classList.contains('info-open'));
 });
 
 zoomInBtn.addEventListener('click', ()=>{
@@ -302,7 +340,7 @@ function buildShot(photo, categoryLabel){
   frame.appendChild(img);
 
   if(categoryLabel) frame.appendChild(make('span', 'shot-cat mono', categoryLabel));
-  frame.addEventListener('click', ()=> openLightbox(img.src, img.alt));
+  frame.addEventListener('click', ()=> openLightbox(img.src, img.alt, photo));
   shot.appendChild(frame);
 
   const bar = make('div', 'shot-exif');

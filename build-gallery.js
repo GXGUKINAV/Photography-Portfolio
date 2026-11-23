@@ -12,6 +12,7 @@
    {
      "Landscape/IMG_9635.jpeg": { "title": "Dragon Ride del Pilatus Kulm", "focus": "center" }
    }
+   "exif" accetta anche camera e flash: compaiono nel pannello info.
    "focus" (top | center | bottom) sceglie quale parte di una foto verticale
    si vede nel riquadro ritagliato della griglia. Default: center.
    ========================================================= */
@@ -92,6 +93,8 @@ function parsePngSize(buf){
 const fmtShutter  = t => !t ? null : (t >= 1 ? `${+t.toFixed(1)}s` : `1/${Math.round(1 / t)}s`);
 const fmtAperture = f => f ? `f/${+f.toFixed(1)}` : null;
 const fmtISO      = v => v ? `ISO ${v}` : null;
+// tag Flash: il bit 0 dice se il flash è scattato
+const fmtFlash    = v => v === undefined ? null : (v & 1 ? 'Sì, scattato' : 'No, disattivato');
 
 // Focale reale; sugli smartphone (sensore minuscolo) l'equivalente 35mm, che è quello sensato da mostrare
 function fmtFocal(ifd0, exif){
@@ -142,11 +145,16 @@ function addPhoto(dirName, file){
   if(w && h && orientation >= 5 && orientation <= 8) [w, h] = [h, w]; // foto scattata in verticale
 
   const ex = info.exif;
+  const make = info.ifd0[0x010F] || '', model = info.ifd0[0x0110] || '';
+  const camera = !model ? null
+    : (make && !model.toLowerCase().includes(make.split(' ')[0].toLowerCase()) ? `${make} ${model}` : model);
   const exif = {
     shutter:  fmtShutter(ex[0x829A]),
     aperture: fmtAperture(ex[0x829D]),
     focal:    fmtFocal(info.ifd0, ex),
-    iso:      fmtISO(ex[0x8827])
+    iso:      fmtISO(ex[0x8827]),
+    camera,
+    flash:    fmtFlash(ex[0x9209])
   };
 
   const taken = typeof ex[0x9003] === 'string'

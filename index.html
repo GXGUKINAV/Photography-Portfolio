@@ -102,14 +102,14 @@
   <div class="container">
     <div class="cta-strip reveal">
       <h3>Hai un evento o un'idea da fermare in uno scatto?</h3>
-      <a class="btn" href="mailto:tuonome@email.com">Scrivimi →</a>
+      <a class="btn" href="mailto:gxalternative1@gmail.com">Scrivimi →</a>
     </div>
 
     <footer>
       <span class="fmono">© 2026 — attyl.photography</span>
       <div class="socials">
         <a href="https://www.instagram.com/attyl.photography/" target="_blank" rel="noopener">Instagram</a>
-        <a href="mailto:tuonome@email.com">Email</a>
+        <a href="mailto:gxalternative1@gmail.com">Email</a>
       </div>
     </footer>
   </div>
@@ -117,7 +117,6 @@
 
 <div class="lightbox" id="lightbox" aria-hidden="true">
   <button class="lightbox-close" id="lightboxClose" aria-label="Chiudi anteprima">✕</button>
-
   <div class="lightbox-stage" id="lightboxStage">
     <div class="lightbox-photo" id="lightboxPhoto">
       <img id="lightboxImg" src="" alt="" draggable="false">
@@ -131,11 +130,20 @@
     <li role="menuitem" data-action="close" class="danger">Chiudi anteprima</li>
   </ul>
 
+  <aside class="lightbox-info" id="lightboxInfo" aria-hidden="true">
+    <div class="info-head">
+      <h3>Metadata EXIF</h3>
+      <button id="infoClose" aria-label="Chiudi info">✕</button>
+    </div>
+    <ul class="info-list" id="infoList"></ul>
+  </aside>
+
   <div class="lightbox-zoom mono">
     <button id="zoomOut" aria-label="Riduci zoom">−</button>
     <span class="zoom-level" id="zoomLevel">100%</span>
     <button id="zoomIn" aria-label="Aumenta zoom">+</button>
     <button class="zoom-reset" id="zoomReset">Reset</button>
+    <button class="zoom-info" id="zoomInfo" aria-label="Informazioni foto" title="Info (i)">i</button>
   </div>
 </div>
 

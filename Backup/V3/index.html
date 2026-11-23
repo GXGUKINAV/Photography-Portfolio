@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>attyl.photography — Fotografia</title>
+<meta name="description" content="Portfolio fotografico di attyl.photography. Fotografo a Cremona, attivo dal 2023.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="track-lines"></div>
+
+<header>
+  <a class="logo" href="#top" aria-label="attyl.photography">ATTYL<span class="dot">.</span><span class="logo-ext">PHOTOGRAPHY</span></a>
+
+  <div class="header-right">
+    <nav>
+      <ul>
+        <li><a href="#about">Profilo</a></li>
+        <li><a href="#gallery">Scatti</a></li>
+        <li><a href="#contact">Contatti</a></li>
+      </ul>
+    </nav>
+
+    <div class="theme-toggle" role="group" aria-label="Tema del sito">
+      <button type="button" data-set-theme="light" aria-pressed="false" aria-label="Tema chiaro" title="Tema chiaro">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+      <button type="button" data-set-theme="dark" aria-pressed="false" aria-label="Tema scuro" title="Tema scuro">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="container">
+    <div class="hero-eyebrow mono">Fotografo — Cremona, Italia · dal 2023</div>
+    <h1>Ogni scatto<br><span class="line2">ha un tempo giro.</span></h1>
+    <p class="hero-sub">
+      Fotografia <strong>dal vivo</strong>, un luogo alla volta.
+    </p>
+  </div>
+
+  <div class="scroll-cue">
+    <div class="bar"></div>
+    Scorri
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <div class="sec-head">
+      <span class="tag mono">01 / Profilo</span>
+      <div class="rule"></div>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>Sono un fotografo di Cremona. Dal 2023 racconto luoghi e momenti attraverso l'obiettivo, e questo è il mio archivio: tutto quello che trovi qui l'ho scattato io.</p>
+      </div>
+
+      <div class="specs reveal">
+        <div class="specs-head">
+          <h3>Attrezzatura</h3>
+          <div class="specs-nav">
+            <button id="prevGear" aria-label="Attrezzatura precedente">←</button>
+            <span class="count mono"><span id="gearIndex">1</span> / <span id="gearTotal">2</span></span>
+            <button id="nextGear" aria-label="Attrezzatura successiva">→</button>
+          </div>
+        </div>
+        <ul>
+          <li><span>Tipo</span><span id="gearTipo">—</span></li>
+          <li><span>Corpo macchina</span><span id="gearCorpo">—</span></li>
+          <li><span>Obiettivo principale</span><span id="gearObiettivo">—</span></li>
+          <li><span>Focale preferita</span><span id="gearFocale">—</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="container">
+    <div class="sec-head">
+      <span class="tag mono">02 / Archivio</span>
+      <div class="rule"></div>
+    </div>
+
+    <!-- filtri e foto vengono generati da script.js a partire da photos.js -->
+    <div class="filters" id="filters"></div>
+    <div class="gallery" id="galleryGrid"></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="cta-strip reveal">
+      <h3>Hai un evento o un'idea da fermare in uno scatto?</h3>
+      <a class="btn" href="mailto:tuonome@email.com">Scrivimi →</a>
+    </div>
+
+    <footer>
+      <span class="fmono">© 2026 — attyl.photography</span>
+      <div class="socials">
+        <a href="https://www.instagram.com/attyl.photography/" target="_blank" rel="noopener">Instagram</a>
+        <a href="mailto:tuonome@email.com">Email</a>
+      </div>
+    </footer>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Chiudi anteprima">✕</button>
+
+  <div class="lightbox-stage" id="lightboxStage">
+    <div class="lightbox-photo" id="lightboxPhoto">
+      <img id="lightboxImg" src="" alt="" draggable="false">
+      <span class="lightbox-watermark">attyl.photography</span>
+    </div>
+  </div>
+
+  <ul class="lightbox-ctxmenu" id="lightboxCtxMenu" role="menu">
+    <li role="menuitem" data-action="zoom-max">Zoom massimo</li>
+    <li role="menuitem" data-action="zoom-reset">Reimposta zoom</li>
+    <li role="menuitem" data-action="close" class="danger">Chiudi anteprima</li>
+  </ul>
+
+  <div class="lightbox-zoom mono">
+    <button id="zoomOut" aria-label="Riduci zoom">−</button>
+    <span class="zoom-level" id="zoomLevel">100%</span>
+    <button id="zoomIn" aria-label="Aumenta zoom">+</button>
+    <button class="zoom-reset" id="zoomReset">Reset</button>
+  </div>
+</div>
+
+<!-- photos.js è generato da build-gallery.js: definisce window.PHOTOS -->
+<script src="photos.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>

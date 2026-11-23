@@ -69,7 +69,7 @@ Serve solo quando il valore automatico non va bene. La chiave è il percorso del
 | `focus` | Quale parte di una foto **verticale** si vede nel riquadro della griglia: `top`, `center` o `bottom` (default `center`) |
 | `exif` | Sostituisce singoli valori, es. `{ "focal": "35mm", "iso": "ISO 200" }` |
 
-I campi di `exif` sono `shutter` (`"1/250s"`), `aperture` (`"f/2.8"`), `focal` (`"35mm"`) e `iso` (`"ISO 200"`). Sono testo libero, scrivili esattamente come vuoi vederli.
+I campi di `exif` sono `shutter` (`"1/250s"`), `aperture` (`"f/2.8"`), `focal` (`"35mm"`), `iso` (`"ISO 200"`) e, per il pannello info, `camera` (`"Canon EOS 750D"`) e `flash` (`"No, disattivato"`). Sono testo libero, scrivili esattamente come vuoi vederli.
 
 Dopo ogni modifica a `overrides.json` rilancia `node build-gallery.js`. Se scrivi un `focus` non valido lo script ti avvisa e lo ignora.
 
@@ -90,10 +90,16 @@ Dopo ogni modifica a `overrides.json` rilancia `node build-gallery.js`. Se scriv
 | Aggiornare la mia attrezzatura | Array `GEAR` in cima a `script.js` |
 | Cambiare la bio | Paragrafo dentro `<section id="about">` in `index.html` |
 | Cambiare il titolone o il sottotitolo in alto | Sezione `.hero` in `index.html` |
-| Mettere la mia email vera | In `index.html` sostituisco `tuonome@email.com` (compare due volte: bottone "Scrivimi" e footer) |
+| Mettere la mia email vera | In `index.html` sostituisco `gxalternative1@gmail.com` (compare due volte: bottone "Scrivimi" e footer) |
 | Cambiare i link social | Footer di `index.html` |
 | Cambiare il watermark sulla foto ingrandita | `<span class="lightbox-watermark">` in `index.html` |
 | Cambiare i colori | Variabili in cima a `style.css`, nel blocco `:root` (ogni colore ha il valore chiaro e quello scuro: `light-dark(chiaro, scuro)`) |
+
+---
+
+## Anteprima a schermo intero e pannello info
+
+Cliccando una foto si apre l'anteprima con zoom, trascinamento e menu col tasto destro. Il bottone **i** nella barra dello zoom (o il tasto `I`) apre il pannello "Metadata EXIF" con fotocamera, risoluzione, tempo di scatto, diaframma, ISO, lunghezza focale e flash. Il pannello si chiude da solo quando cambi lo zoom. Compaiono solo i dati presenti nel file, quindi se uno manca basta correggerlo in `overrides.json`.
 
 ---
 

@@ -18,8 +18,11 @@ window.PHOTOS = {
         "shutter": "1/1451s",
         "aperture": "f/1.6",
         "focal": "26mm",
-        "iso": "ISO 50"
-      }
+        "iso": "ISO 50",
+        "camera": "Apple iPhone 17",
+        "flash": "No, disattivato"
+      },
+      "focus": "bottom"
     },
     {
       "src": "images/Landscape/pilatus-kulm.jpg",
@@ -32,7 +35,9 @@ window.PHOTOS = {
         "shutter": "1/60s",
         "aperture": "f/18",
         "focal": "18mm",
-        "iso": "ISO 100"
+        "iso": "ISO 100",
+        "camera": "Canon EOS 750D",
+        "flash": "No, disattivato"
       }
     }
   ]
