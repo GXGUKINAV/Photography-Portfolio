@@ -39,6 +39,22 @@ window.PHOTOS = {
         "camera": "Canon EOS 750D",
         "flash": "No, disattivato"
       }
+    },
+    {
+      "src": "images/Landscape/_MG_2666.jpg",
+      "cat": "landscape",
+      "title": "Vista Sud dal Pilatus-Kulm",
+      "alt": "Vista Sud dal Pilatus-Kulm",
+      "w": 4000,
+      "h": 6000,
+      "exif": {
+        "shutter": "1/200s",
+        "aperture": "f/11",
+        "focal": "19mm",
+        "iso": "ISO 100",
+        "camera": "Canon EOS 750D",
+        "flash": "No, disattivato"
+      }
     }
   ]
 };
