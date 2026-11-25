@@ -41,7 +41,7 @@ window.PHOTOS = {
       }
     },
     {
-      "src": "images/Landscape/_MG_2666.jpg",
+      "src": "images/Landscape/sud-pilatus-kulm.jpg",
       "cat": "landscape",
       "title": "Vista Sud dal Pilatus-Kulm",
       "alt": "Vista Sud dal Pilatus-Kulm",
