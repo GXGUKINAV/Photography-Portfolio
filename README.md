@@ -127,4 +127,10 @@ git mv images/Landscape/foto.JPG images/Landscape/tmp.jpg
 git mv images/Landscape/tmp.jpg images/Landscape/foto.jpg
 ```
 
+> **Nota (file nuovi non ancora su Git):** Se il file è appena stato aggiunto in locale e `git mv` restituisce `not under version control`, rinominalo normalmente da PowerShell prima di fare `git add`:
+> ```powershell
+> Rename-Item "images/Landscape/foto.JPG" "foto.jpg"
+> ```
+> *(Per convertire in un colpo solo tutte le `.JPG` della cartella in `.jpg`: `Get-ChildItem "images/Landscape/*.JPG" | Rename-Item -NewName { $_.BaseName + ".jpg" }`)*
+
 Per evitare il problema, usa sempre estensioni minuscole (`.jpg`).
