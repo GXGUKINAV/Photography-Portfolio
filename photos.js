@@ -43,8 +43,8 @@ window.PHOTOS = {
     {
       "src": "images/Landscape/sud-pilatus-kulm.jpg",
       "cat": "landscape",
-      "title": "Vista Sud dal Pilatus-Kulm",
-      "alt": "Vista Sud dal Pilatus-Kulm",
+      "title": "Vista Sud dal Pilatus Kulm",
+      "alt": "Vista Sud dal Pilatus Kulm",
       "w": 4000,
       "h": 6000,
       "exif": {
@@ -52,6 +52,22 @@ window.PHOTOS = {
         "aperture": "f/11",
         "focal": "19mm",
         "iso": "ISO 100",
+        "camera": "Canon EOS 750D",
+        "flash": "No, disattivato"
+      }
+    },
+    {
+      "src": "images/Landscape/IMG_9145.jpg",
+      "cat": "landscape",
+      "title": "Tramonto con vista luna",
+      "alt": "Tramonto con vista luna",
+      "w": 4000,
+      "h": 6000,
+      "exif": {
+        "shutter": "1/100s",
+        "aperture": "f/5",
+        "focal": "72mm",
+        "iso": "ISO 640",
         "camera": "Canon EOS 750D",
         "flash": "No, disattivato"
       }
